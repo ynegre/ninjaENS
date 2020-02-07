@@ -40,7 +40,7 @@ void GameState::init(const char *title, int xPos, int yPos, int width, int heigh
         if(map->isLoaded()) {std::cout << "Map loaded." << std::endl;}
 
         SDL_Rect bounds = {-14, 28, -42, 42};
-        //Naruto = Player(100, 100, 1.8, 1.8, 0, bounds, spritesLib.get(spritesLib.SPRITE_NARUTO));
+        Naruto = Player(100, 100, 1.8, 1.8, 0, bounds, spritesLib.get(spritesLib.SPRITE_NARUTO));
 
         running = true;
     } else {

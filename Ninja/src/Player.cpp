@@ -4,6 +4,8 @@
 Player::Player(float xPos, float yPos, float xSpeed, float ySpeed, int id, SDL_Rect bounds, SDL_Texture *sprite) : MoveableObject(xPos, yPos, xSpeed, ySpeed, id, bounds, sprite)
 {}
 
+Player::Player() {}
+
 Player::~Player() {}
 
 void Player::draw() {

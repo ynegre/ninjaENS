@@ -3,8 +3,9 @@
 #include <vector>
 #include <cmath>
 
-using namespace std;
+//using namespace std;
 
+MoveableObject::MoveableObject() {}
 // constructeur exhaustif
 MoveableObject::MoveableObject(float xPos, float yPos, float xSpeed, float ySpeed, int id, SDL_Rect bounds, SDL_Texture *sprite) {
 	this->alive = true;
@@ -35,7 +36,7 @@ void MoveableObject::detectMapCollision(float *xPosWanted, float *yPosWanted) {
 	int nTiles = GameState::map->mapWidth;
 	int tileWidth = GameState::map->tilesWidth;
 
-	vector<int> distPen = {0,0,0,0,0,0,0,0};
+	std::vector<int> distPen = {0,0,0,0,0,0,0,0};
 
     int xTile = (int)(*xPosWanted / tileWidth);
     int yTile = (int)(*yPosWanted / tileWidth);

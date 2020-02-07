@@ -7,7 +7,7 @@
 class MoveableObject {
 
 public:
-
+	MoveableObject();
 	MoveableObject(float xPos, float yPos, float xSpeed, float ySpeed, int id, SDL_Rect bounds, SDL_Texture *sprite);
 	virtual ~MoveableObject();
 	// virtual void fct() = 0 -> methode virtuelle pure ie. doit être implémentée par les instances de la classe fille
