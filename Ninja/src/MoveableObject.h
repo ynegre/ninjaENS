@@ -13,8 +13,9 @@ public:
 	// virtual void fct() = 0 -> methode virtuelle pure ie. doit être implémentée par les instances de la classe fille
 	virtual void draw() = 0;
 	// methodes
-	void move(float dx, float dy);
-	int detectMapCollision(float dx, float dy, float xPosWanted, float yPosWanted);
+	void update(float dx, float dy);
+	void detectMapCollision(float *xPosWanted, float *yPosWanted);
+	void computeDistancePenetration(int *penDx, int *penDy, float xPosWanted, float yPosWanted, SDL_Rect wallRect);
 	// accesseurs
 	int getId();
 	float getXPos();
@@ -23,7 +24,7 @@ public:
 	float getYSpeed();
 	bool isAlive();
 
-private:
+protected:
     float xPos;
     float yPos;
     float xSpeed;

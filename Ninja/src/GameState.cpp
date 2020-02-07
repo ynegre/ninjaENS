@@ -1,6 +1,8 @@
 #include "GameState.h"
 #include "SpritesLibrary.h"
+#include "Player.h"
 #include <iostream>
+
 
 /* Definition de nos attributs qui composent notre classe
  * -> poser la question pour cf la différence avec une définition dans le .h en #include "classe.h"
@@ -9,6 +11,7 @@
 SpritesLibrary spritesLib;
 Map* GameState::map = nullptr;
 SDL_Renderer* GameState::renderer = nullptr;
+Player Naruto;
 
 GameState::GameState() {}
 // destructeur -> on a fait un new avec terrain, on le delete !
@@ -36,6 +39,9 @@ void GameState::init(const char *title, int xPos, int yPos, int width, int heigh
         		spritesLib.get(spritesLib.SPRITE_BLOCK),
 				spritesLib.get(spritesLib.SPRITE_BONUS));
         if(map->isLoaded()) {std::cout << "Map loaded." << std::endl;}
+
+        SDL_Rect bounds = {-14, 28, -42, 42};
+        Naruto = Player(100, 100, 1.8, 1.8, 0, bounds, spritesLib.get(spritesLib.SPRITE_NARUTO));
 
         running = true;
     } else {

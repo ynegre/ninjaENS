@@ -2,6 +2,7 @@
 #define GAMESTATE_H_
 
 #include "Map.h"
+#include "Player.h"
 
 class GameState {
 
