@@ -3,8 +3,6 @@
 #include <iostream>
 
 
-Map::Map() {}
-
 Map::Map(SDL_Texture *floorTex, SDL_Texture *wallTex, SDL_Texture *bonusTex) {
 	floor = floorTex;
 	wall = wallTex;

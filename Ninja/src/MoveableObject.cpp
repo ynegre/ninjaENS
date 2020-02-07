@@ -1,11 +1,10 @@
 #include "MoveableObject.h"
+#include "GameState.h"
 #include <vector>
 #include <cmath>
 
 using namespace std;
 
-// constructeur par defaut
-MoveableObject::MoveableObject() {}
 // constructeur exhaustif
 MoveableObject::MoveableObject(float xPos, float yPos, float xSpeed, float ySpeed, int id, SDL_Rect bounds, SDL_Texture *sprite) {
 	this->alive = true;

@@ -6,7 +6,7 @@
 class Map {
 
 public:
-	Map();
+
 	Map(SDL_Texture *floorTex, SDL_Texture *wallTex, SDL_Texture *bonusTex);
 	virtual ~Map();
 	void reloadMap(const char* path);

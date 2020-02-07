@@ -26,6 +26,7 @@ public:
 private:
 	bool running;
 	SDL_Window *window;
+	Player Naruto;
 
 	// Methodes qui seront à terme uniquement sur le serveur !
 	void moveObjects();
