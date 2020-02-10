@@ -39,8 +39,10 @@ void GameState::init(const char *title, int xPos, int yPos, int width, int heigh
 				spritesLib.get(spritesLib.SPRITE_BONUS));
         if(map->isLoaded()) {std::cout << "Map loaded." << std::endl;}
 
-        SDL_Rect bounds = {-14, 28, -42, 42};
+        SDL_Rect bounds = {-14, -11, 28, 42};
         Naruto = Player(100, 100, 1.8, 1.8, 0, bounds, spritesLib.get(spritesLib.SPRITE_NARUTO));
+        dx = 0.0;
+        dy = 0.0;
 
         running = true;
     } else {
@@ -55,6 +57,25 @@ void GameState::handleEvents() {
 		case SDL_QUIT:
 			running = false;
 			break;
+		case SDL_KEYDOWN:
+			if(event.key.keysym.sym == SDLK_UP)
+			{
+				dy = -1;
+			}
+			else if(event.key.keysym.sym == SDLK_DOWN)
+			{
+				dy = 1;
+			}
+			else if(event.key.keysym.sym == SDLK_RIGHT)
+			{
+				dx = 1;
+			}
+
+			else if(event.key.keysym.sym == SDLK_LEFT)
+			{
+				dx = -1;
+			}
+			break;
 		default:
 			break;
 	}
@@ -65,24 +86,13 @@ void GameState::render() {
 
 	// insert stuff to render
 	map->drawMap();
-    static int cnt = 0;
-    cnt += 2;
-
-	SDL_Rect dest;
-	dest.h = 64;
-	dest.w = 64;
-	dest.x = cnt;
-	dest.y = 0;
-	SpritesLibrary::draw(spritesLib.get(spritesLib.SPRITE_NARUTO), NULL, &dest);
+	Naruto.draw();
 
     SDL_RenderPresent(renderer);
 };
 
 void GameState::update() {
-    static int pos = 0;
-    // moveObjects
-	pos++;
-	//std::cout << pos << std::endl;
+   Naruto.update(dx, dy);
 
 };
 

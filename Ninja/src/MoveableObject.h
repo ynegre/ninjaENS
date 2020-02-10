@@ -15,7 +15,7 @@ public:
 	// methodes
 	void update(float dx, float dy);
 	void detectMapCollision(float *xPosWanted, float *yPosWanted);
-	void computeDistancePenetration(int *penDx, int *penDy, float xPosWanted, float yPosWanted, SDL_Rect wallRect);
+	void computeDistancePenetration(float *penDx, float *penDy, float xPosWanted, float yPosWanted, SDL_Rect wallRect);
 	// accesseurs
 	int getId();
 	float getXPos();
@@ -23,12 +23,13 @@ public:
 	float getXSpeed();
 	float getYSpeed();
 	bool isAlive();
+    float xSpeed;
+    float ySpeed;
+
 
 protected:
     float xPos;
     float yPos;
-    float xSpeed;
-    float ySpeed;
     bool alive;
     int id;
     SDL_Rect bounds;

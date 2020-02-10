@@ -9,7 +9,8 @@ Player::Player() {}
 Player::~Player() {}
 
 void Player::draw() {
-	SDL_Rect dest = {(int)xPos, (int)yPos, 64, 64};
+	// -32 car on prends comme centre (xPos,yPos) "fictif" le centre de chaque sprite (64x64) car cela simplifie les calculs.
+	SDL_Rect dest = {(int)xPos - 32, (int)yPos - 32, 64, 64};
 	SpritesLibrary::draw(sprite, NULL, &dest);
 }
 
