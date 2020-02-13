@@ -8,28 +8,23 @@ class MoveableObject {
 
 public:
 	MoveableObject();
-	MoveableObject(float xPos, float yPos, float xSpeed, float ySpeed, int id, SDL_Rect bounds, SDL_Texture *sprite);
+	MoveableObject(int xPos, int yPos, int xSpeed, int ySpeed, int id, SDL_Rect bounds, SDL_Texture *sprite);
 	virtual ~MoveableObject();
 	// virtual void fct() = 0 -> methode virtuelle pure ie. doit être implémentée par les instances de la classe fille
 	virtual void draw() = 0;
 	// methodes
 	void update(float dx, float dy);
-	void detectMapCollision(float *xPosWanted, float *yPosWanted);
-	void computeDistancePenetration(float *penDx, float *penDy, float xPosWanted, float yPosWanted, SDL_Rect wallRect);
 	// accesseurs
 	int getId();
-	float getXPos();
-	float getYPos();
-	float getXSpeed();
-	float getYSpeed();
+	int getXPos();
+	int getYPos();
 	bool isAlive();
-    float xSpeed;
-    float ySpeed;
-
 
 protected:
-    float xPos;
-    float yPos;
+    int xPos;
+    int yPos;
+    int xSpeed;
+    int ySpeed;
     bool alive;
     int id;
     SDL_Rect bounds;

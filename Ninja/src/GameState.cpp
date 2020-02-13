@@ -40,7 +40,7 @@ void GameState::init(const char *title, int xPos, int yPos, int width, int heigh
         if(map->isLoaded()) {std::cout << "Map loaded." << std::endl;}
 
         SDL_Rect bounds = {-14, -11, 28, 42};
-        Naruto = Player(100, 100, 1.8, 1.8, 0, bounds, spritesLib.get(spritesLib.SPRITE_NARUTO));
+        Naruto = Player(100, 100, 2, 2, 0, bounds, spritesLib.get(spritesLib.SPRITE_NARUTO));
         dx = 0.0;
         dy = 0.0;
 
@@ -75,6 +75,10 @@ void GameState::handleEvents() {
 			{
 				dx = -1;
 			}
+			else if((event.key.keysym.sym == SDLK_SPACE))
+			{
+				dx = 0; dy = 0;
+			}
 			break;
 		default:
 			break;
@@ -87,6 +91,8 @@ void GameState::render() {
 	// insert stuff to render
 	map->drawMap();
 	Naruto.draw();
+	SDL_Rect dest = {Naruto.getXPos(), Naruto.getYPos(), 4, 4};
+	SDL_RenderDrawRect(GameState::renderer, &dest); // Centre de Naruto
 
     SDL_RenderPresent(renderer);
 };
