@@ -13,7 +13,7 @@ public:
 	void drawMap();
 	bool isLoaded();
 
-	enum texture_slot{
+	enum textureBlock{
 		FLOOR,
 		WALL,
 		BONUS

@@ -1,6 +1,8 @@
 #ifndef GAMESTATE_H_
 #define GAMESTATE_H_
 
+
+#include "GestionBluetooth/rs232.h"
 #include "Map.h"
 #include "Player.h"
 
@@ -11,6 +13,7 @@ public:
 	virtual ~GameState();
 
 	void init(const char *title, int xPos, int yPos, int width, int height);
+	void initComManetteWii();
 	void handleEvents();
 	void render();
 	void update();
@@ -26,13 +29,15 @@ public:
 private:
 	bool running;
 	SDL_Window *window;
-	Player Naruto;
-	float dx;
-	float dy;
+	Player myPlayer;
+
+	// Commande de position pour myPlayer (celui contrôlé par ce Client du jeu Ninja
+	float dx = 0.0;
+	float dy = 0.0;
+	void updatePosOrderFromBluetooth();
 
 
 	// Methodes qui seront à terme uniquement sur le serveur !
-	void moveObjects();
 	bool collisionRect(SDL_Rect rectA, SDL_Rect rectB);
 	void collisionObjects();
 

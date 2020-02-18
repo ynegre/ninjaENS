@@ -13,10 +13,23 @@ SDL_Renderer* GameState::renderer = nullptr;
 
 
 GameState::GameState() {}
-// destructeur -> on a fait un new avec terrain, on le delete !
-GameState::~GameState() {delete map;}
+GameState::~GameState() {delete map;} // destructeur -> on a fait un new avec terrain, on le delete !
 
+void GameState::initComManetteWii() {
+    int nbPort = comEnumerate();
+    for (uint8_t i = 0; i < nbPort; i++)
+    {
+        printf("COM Port: %s ", comGetPortName(i));
+    }
+    myPlayer.portNumber = comFindPort("COM3");
+    int result = 0;
+    while(!result){
+        result = comOpen(myPlayer.portNumber, BAUD_RATE);
+        //printf("COM Port: %s\n", result ? "Connected" : "Failed");
+    }
+    std::cout << "available... \n" << "Manette Wii connected... " << std::endl;
 
+}
 
 void GameState::init(const char *title, int xPos, int yPos, int width, int height) {
 
@@ -40,9 +53,7 @@ void GameState::init(const char *title, int xPos, int yPos, int width, int heigh
         if(map->isLoaded()) {std::cout << "Map loaded." << std::endl;}
 
         SDL_Rect bounds = {-14, -11, 28, 42};
-        Naruto = Player(100, 100, 2, 2, 0, bounds, spritesLib.get(spritesLib.SPRITE_NARUTO));
-        dx = 0.0;
-        dy = 0.0;
+        myPlayer = Player(100, 100, 2, 2, 0, bounds, spritesLib.get(spritesLib.SPRITE_NARUTO));
 
         running = true;
     } else {
@@ -57,7 +68,7 @@ void GameState::handleEvents() {
 		case SDL_QUIT:
 			running = false;
 			break;
-		case SDL_KEYDOWN:
+	/*	case SDL_KEYDOWN:
 			if(event.key.keysym.sym == SDLK_UP)
 			{
 				dy = -1;
@@ -82,31 +93,61 @@ void GameState::handleEvents() {
 			break;
 		default:
 			break;
+	*/
 	}
+
 };
 
 void GameState::render() {
 	SDL_RenderClear(renderer); // clear the current rendering target with the drawing color.
 
-	// insert stuff to render
+	// Stuff to render
 	map->drawMap();
-	Naruto.draw();
-	SDL_Rect dest = {Naruto.getXPos(), Naruto.getYPos(), 4, 4};
-	SDL_RenderDrawRect(GameState::renderer, &dest); // Centre de Naruto
+	myPlayer.draw();
+	SDL_Rect dest = {myPlayer.getXPos(), myPlayer.getYPos(), 4, 4};
+	SDL_RenderDrawRect(GameState::renderer, &dest); // Centre de myPlayer
 
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(renderer); // render everything to the screen
 };
+
+void GameState::updatePosOrderFromBluetooth() {
+
+    uint8_t comData[50] = {0};
+    int nbReadData = comRead(myPlayer.portNumber, (char*)(&comData), 50);
+    std::cout << nbReadData << std::endl;
+    if(nbReadData != 0 ) {printf("Number of byte received : %i\n", nbReadData);}
+    for(int j = 0; j < nbReadData; j++)
+    {
+        if(comData[j] == 0)
+            continue;
+        else if(comData[j] == 0xFF) // Start of Data
+        {
+            dx = -((comData[j + 1] << 8) | comData[j + 2])/2000.f;
+            dy = ((comData[j + 3] << 8) | comData[j + 4])/2000.f;
+            j += 4;
+            //printf("Received : dx = %i (H:%u, L:%u), dy = %i (H:%u, L:%u)\n", dx, comData[i+1], comData[i+2], dy, comData[i+3], comData[i+4]);
+        }
+        /*else if (comData[j] == 0xF0)
+        {
+            weapon *kunai = GameState.weapons[i];
+            if(!kunai->isUsed)
+                SpawnKunai(kunai, p->xPos, p->yPos, p->xSpeed, p->ySpeed);
+        }
+        */
+    }
+
+}
 
 void GameState::update() {
-   Naruto.update(dx, dy);
-
+	updatePosOrderFromBluetooth();
+	myPlayer.update(dx, dy);
 };
 
-void GameState::moveObjects() {
 
-};
 
 void GameState::clean() {
+	comCloseAll();
+	std::cout << "Manette Wii correctly deconnected." << std::endl;
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();

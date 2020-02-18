@@ -9,7 +9,7 @@ Player::Player() {}
 Player::~Player() {}
 
 void Player::draw() {
-	// -32 car on prends comme centre (xPos,yPos) "fictif" le centre de chaque sprite (64x64) car cela simplifie les calculs.
+	// -32 car on prend comme centre (xPos,yPos) "fictif" le centre de chaque sprite (64x64) car cela simplifie les calculs.
 	SDL_Rect dest = {xPos - 32, yPos - 32, 64, 64};
 	SpritesLibrary::draw(sprite, NULL, &dest);
 }

@@ -1,18 +1,17 @@
 //============================================================================
 // Name        : Ninja
-// Author      : Thomas
+// Author      : Thomas Chapalain
 // Version     :
 // Copyright   : Your copyright notice
 // Description : Projet Info M2FESUP Intranet
 //============================================================================
-
-
 
 #include "GameState.h"
 
 int main(int argc, char *argv[]) {
 
 	GameState *game = new GameState();
+	game->initComManetteWii();
 	game->init("Ninja", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1216, 640);
 
 	const int FPS = 60;

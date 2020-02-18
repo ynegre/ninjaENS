@@ -10,6 +10,8 @@ public:
 	virtual ~Player();
 
 	void draw();
+	int portNumber; // Port associée à la communication bluetooth avec la manette Wii.
+
 };
 
 #endif /* PLAYER_H_ */

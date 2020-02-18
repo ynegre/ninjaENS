@@ -29,78 +29,82 @@ void MoveableObject::update(float dx, float dy) {
 	float newXPos = wantedXPos;
 	float newYPos = wantedYPos;
 
-	int xTile = ((int)xPos) / 64;
-	int yTile = ((int)yPos) / 64;
+	int tileWidth = GameState::map->tilesWidth;
+	int mapWidth = GameState::map->mapWidth;
+
+	int xTile = xPos / tileWidth;
+	int yTile = yPos / tileWidth;
 
 	int detectXcol = 0;
 	int detectYcol = 0;
+
 	// Solve X-axis
-	if((((int)wantedXPos) < xTile * 64 - bounds.x) && (dx < 0)) // Going to the left
+	if((((int)wantedXPos) < xTile * tileWidth - bounds.x) && (dx < 0)) // Going to the left
 	{
 		for(int j = -1; j <= 1; j++)
 		{
 			int x = xTile - 1;
 			int y = yTile + j;
-			if(x < 0 || x >= 19 || y < 0 || y >= 10) continue;
-			if(GameState::map->grid[x + 19 * y] != 1) continue;
-			if(GameState::map->grid[(x + 1) + 19 * y] == 1) continue; // Ignore inside walls
+			if(x < 0 || x >= mapWidth || y < 0 || y >= 10) continue;
+			if(GameState::map->grid[x + mapWidth * y] != 1) continue;
+			if(GameState::map->grid[(x + 1) + mapWidth * y] == 1) continue; // Ignore inside walls
 
-			if(((int)wantedYPos) <= (y + 1) * 64 - 1 - bounds.y && ((int)wantedYPos) >= y * 64 - bounds.y - bounds.h)
+			if(((int)wantedYPos) <= (y + 1) * tileWidth - 1 - bounds.y && ((int)wantedYPos) >= y * tileWidth - bounds.y - bounds.h)
 			{
-				newXPos = xTile * 64 - bounds.x;
+				newXPos = xTile * tileWidth - bounds.x;
 				detectXcol = -1;
 			}
 		}
 	}
-	if((((int)wantedXPos) > (xTile + 1) * 64 - 1 - bounds.x - bounds.w) && (dx > 0)) // Going to the right
+	if((((int)wantedXPos) > (xTile + 1) * tileWidth - 1 - bounds.x - bounds.w) && (dx > 0)) // Going to the right
 	{
 		for(int j = -1; j <= 1; j++)
 		{
 			int x = xTile + 1;
 			int y = yTile + j;
-			if(x < 0 || x >= 19 || y < 0 || y >= 10) continue;
-			if(GameState::map->grid[x + 19 * y] != 1) continue;
-			if(GameState::map->grid[(x - 1) + 19 * y] == 1) continue; // Ignore inside walls
+			if(x < 0 || x >= mapWidth || y < 0 || y >= 10) continue;
+			if(GameState::map->grid[x + mapWidth * y] != 1) continue;
+			if(GameState::map->grid[(x - 1) + mapWidth * y] == 1) continue; // Ignore inside walls
 
-			if(((int)wantedYPos) <= (y + 1) * 64 - 1 - bounds.y && ((int)wantedYPos) >= y * 64 - bounds.y - bounds.h)
+			if(((int)wantedYPos) <= (y + 1) * tileWidth - 1 - bounds.y && ((int)wantedYPos) >= y * tileWidth - bounds.y - bounds.h)
 			{
-				newXPos = (xTile + 1) * 64 - 1 - bounds.x - bounds.w;
+				newXPos = (xTile + 1) * tileWidth - 1 - bounds.x - bounds.w;
 				detectXcol = 1;
 			}
 		}
 	}
 
 	// Solve Y-axis
-	if((((int)wantedYPos) < yTile * 64 - bounds.y) && (dy < 0)) // Going upward
+	if((((int)wantedYPos) < yTile * tileWidth - bounds.y) && (dy < 0)) // Going upward
 	{
 		for(int i = -1; i <= 1; i++)
 		{
 			int x = xTile + i;
 			int y = yTile - 1;
-			if(x < 0 || x >= 19 || y < 0 || y >= 10) continue;
-			if(GameState::map->grid[x + 19 * y] != 1) continue;
-			if(GameState::map->grid[x + 19 * (y + 1)] == 1) continue; // Ignore inside walls
+			if(x < 0 || x >= mapWidth || y < 0 || y >= 10) continue;
+			if(GameState::map->grid[x + mapWidth * y] != 1) continue;
+			if(GameState::map->grid[x + mapWidth * (y + 1)] == 1) continue; // Ignore inside walls
 
-			if(((int)wantedXPos) <= (x + 1) * 64 - 1 - bounds.x && ((int)wantedXPos) >= x * 64 - bounds.x - bounds.w)
+			if(((int)wantedXPos) <= (x + 1) * tileWidth - 1 - bounds.x && ((int)wantedXPos) >= x * tileWidth - bounds.x - bounds.w)
 			{
-				newYPos = yTile * 64 - bounds.y;
+				newYPos = yTile * tileWidth - bounds.y;
 				detectYcol = -1;
 			}
 		}
 	}
-	if((((int)wantedYPos) > (yTile + 1) * 64 - 1 - bounds.y - bounds.h) && (dy > 0)) // Going downward
+	if((((int)wantedYPos) > (yTile + 1) * tileWidth - 1 - bounds.y - bounds.h) && (dy > 0)) // Going downward
 	{
 		for(int i = -1; i <= 1; i++)
 		{
 			int x = xTile + i;
 			int y = yTile + 1;
-			if(x < 0 || x >= 19 || y < 0 || y >= 10) continue;
-			if(GameState::map->grid[x + 19 * y] != 1) continue;
-			if(GameState::map->grid[x  + 19 * (y - 1)] == 1) continue; // Ignore inside walls
+			if(x < 0 || x >= mapWidth || y < 0 || y >= 10) continue;
+			if(GameState::map->grid[x + mapWidth * y] != 1) continue;
+			if(GameState::map->grid[x  + mapWidth * (y - 1)] == 1) continue; // Ignore inside walls
 
-			if(((int)wantedXPos) <= (x + 1) * 64 - 1 - bounds.x && ((int)wantedXPos) >= x * 64 - bounds.x - bounds.w)
+			if(((int)wantedXPos) <= (x + 1) * tileWidth - 1 - bounds.x && ((int)wantedXPos) >= x * tileWidth - bounds.x - bounds.w)
 			{
-				newYPos = (yTile + 1) * 64 - 1 - bounds.y - bounds.h;
+				newYPos = (yTile + 1) * tileWidth - 1 - bounds.y - bounds.h;
 				detectYcol = 1;
 			}
 		}
@@ -108,19 +112,19 @@ void MoveableObject::update(float dx, float dy) {
 
 	if (detectXcol && detectYcol) // Prise en compte des cas pathologiques
 	{
-		if(detectXcol == -1 && GameState::map->grid[xTile - 1 + 19 * yTile] != 1 && dy > 0)
+		if(detectXcol == -1 && GameState::map->grid[xTile - 1 + mapWidth * yTile] != 1 && dy > 0)
 		{
 			newXPos = wantedXPos;
 		}
-		else if(detectXcol == 1 && GameState::map->grid[xTile + 1 + 19 * yTile] != 1 && dy > 0)
+		else if(detectXcol == 1 && GameState::map->grid[xTile + 1 + mapWidth * yTile] != 1 && dy > 0)
 		{
 			newXPos = wantedXPos;
 		}
-		 else if(detectXcol == -1 && GameState::map->grid[xTile  + 19 * (yTile - 1)] != 1 && dy < 0)
+		 else if(detectXcol == -1 && GameState::map->grid[xTile  + mapWidth * (yTile - 1)] != 1 && dy < 0)
 		{
 			newYPos = wantedYPos;
 		}
-		else if(detectXcol == 1 && GameState::map->grid[xTile  + 19 * (yTile - 1)] != 1 && dy < 0)
+		else if(detectXcol == 1 && GameState::map->grid[xTile  + mapWidth * (yTile - 1)] != 1 && dy < 0)
 		{
 			newYPos = wantedYPos;
 		}
